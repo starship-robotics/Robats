@@ -7,13 +7,15 @@
 
 package frc.robot;
 
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.commands.EncoderDriveCommand;
+import frc.robot.commands.PrintEncoderCommand;
+import frc.robot.commands.DriveCommand;
+import frc.robot.subsystems.EncoderSubSystem;
+import frc.robot.subsystems.DriveTrain;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -23,11 +25,16 @@ import frc.robot.subsystems.ExampleSubsystem;
  * project.
  */
 public class Robot extends TimedRobot {
-  public static ExampleSubsystem m_subsystem = new ExampleSubsystem();
+  public static DriveTrain driveTrain;
+  public static EncoderSubSystem encoder;
   public static OI m_oi;
+  public static NetworkTableInstance networkTable;
 
-  Command m_autonomousCommand;
-  SendableChooser<Command> m_chooser = new SendableChooser<>();
+  //Command m_autonomousCommand;
+  Command driveCommand;
+  Command encoderCommand;
+
+  //SendableChooser<Command> m_chooser = new SendableChooser<>();
 
   /**
    * This function is run when the robot is first started up and should be
@@ -36,9 +43,25 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_oi = new OI();
-    m_chooser.setDefaultOption("Default Auto", new ExampleCommand());
+    //m_chooser.setDefaultOption("Default Auto", new DriveCommand());
+
+    networkTable = NetworkTableInstance.getDefault();
+
+    driveTrain = new DriveTrain();
+    driveCommand = new DriveCommand(); 
+    driveTrain.setDefaultCommand(driveCommand);
+
+    encoder = new EncoderSubSystem();
+    encoderCommand = new EncoderDriveCommand(networkTable);
+    encoder.setDefaultCommand(encoderCommand);
+    System.out.println("blahblahblah");
+    m_oi.getJoy1ButtonA().whenPressed(new PrintEncoderCommand());
+
+    
+
+
     // chooser.addOption("My Auto", new MyAutoCommand());
-    SmartDashboard.putData("Auto mode", m_chooser);
+    //SmartDashboard.putData("Auto mode", m_chooser);
   }
 
   /**
@@ -51,9 +74,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-  }
 
-  /**
+  }
+  /** 
    * This function is called once each time the robot enters Disabled mode.
    * You can use it to reset any subsystem information you want to clear when
    * the robot is disabled.
@@ -80,7 +103,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_chooser.getSelected();
+    //m_autonomousCommand = m_chooser.getSelected();
 
     /*
      * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -90,9 +113,11 @@ public class Robot extends TimedRobot {
      */
 
     // schedule the autonomous command (example)
+    /*
     if (m_autonomousCommand != null) {
       m_autonomousCommand.start();
     }
+    */
   }
 
   /**
@@ -109,9 +134,9 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    if (m_autonomousCommand != null) {
+    /*if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
-    }
+    }*/
   }
 
   /**

@@ -7,15 +7,30 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * An example subsystem.  You can replace me with your own Subsystem.
  */
-public class ExampleSubsystem extends Subsystem {
+public class EncoderSubSystem extends Subsystem {
+  private WPI_TalonSRX encoderMotor;
+  Encoder encoder;
+
+  public EncoderSubSystem(){
+    encoderMotor = new WPI_TalonSRX(8);
+    encoder = new Encoder(0, 1, false, Encoder.EncodingType.k4X);
+  }
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-
+  public void drive(double speed){
+    encoderMotor.set(speed);
+  }
+  public int readEncoder(){
+    return encoder.get();
+  }
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
