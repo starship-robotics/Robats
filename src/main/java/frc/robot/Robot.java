@@ -11,12 +11,15 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.RobotController;
 import frc.robot.commands.EncoderDriveCommand;
 import frc.robot.commands.PrintEncoderCommand;
+import frc.robot.commands.DiagnosticCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.subsystems.EncoderSubSystem;
+import frc.robot.subsystems.Diagnostic;
 import frc.robot.subsystems.DriveTrain;
-
+import frc.robot.subsystems.RobotControllerSubSystem;
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -29,10 +32,13 @@ public class Robot extends TimedRobot {
   public static EncoderSubSystem encoder;
   public static OI m_oi;
   public static NetworkTableInstance networkTable;
+  public static RobotControllerSubSystem robotControllerSubSystem;
+  public static Diagnostic diagnostic;
 
   //Command m_autonomousCommand;
   Command driveCommand;
   Command encoderCommand;
+  Command diagnosticCommand;
 
   //SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -50,12 +56,21 @@ public class Robot extends TimedRobot {
     driveTrain = new DriveTrain();
     driveCommand = new DriveCommand(); 
     driveTrain.setDefaultCommand(driveCommand);
-
+    
     encoder = new EncoderSubSystem();
     encoderCommand = new EncoderDriveCommand(networkTable);
     encoder.setDefaultCommand(encoderCommand);
+
+    diagnostic = new Diagnostic();
+    diagnosticCommand= new DiagnosticCommand();
+    diagnostic.setDefaultCommand(diagnosticCommand);
+  
+
+
+
+   
     System.out.println("blahblahblah");
-    m_oi.getJoy1ButtonA().whenPressed(new PrintEncoderCommand());
+    
 
     
 
