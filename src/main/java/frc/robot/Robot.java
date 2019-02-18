@@ -13,10 +13,10 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.commands.LiftDriveCommand;
 import frc.robot.commands.DriveCommand;
-import frc.robot.commands.ElbowDriveCommand;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.RobotControllerSubSystem;
 import frc.robot.subsystems.arm.ElbowSystem;
+import frc.robot.subsystems.arm.WristSystem;
 import frc.robot.subsystems.lift.FrontLeftLegSystem;
 import frc.robot.subsystems.lift.FrontRightLegSystem;
 import frc.robot.subsystems.lift.LiftSystem;
@@ -46,6 +46,7 @@ public class Robot extends TimedRobot {
 
   public static ArmSystem armSystem;
   public static ElbowSystem elbowSystem;
+  public static WristSystem wristSystem;
 
   Command driveCommand;
   Command encoderCommand;
@@ -70,10 +71,16 @@ public class Robot extends TimedRobot {
     frontRightLegSystem.setDefaultCommand(new LiftDriveCommand(frontRightLegSystem));
     //rearLegSystem.setDefaultCommand(new LiftDriveCommand(rearLegSystem));
     
-    /*armSystem = new ArmSystem();
+    /*
+    armSystem = new ArmSystem();
     elbowSystem = new ElbowSystem();
     elbowSystem.setDefaultCommand(new ElbowDriveCommand());
-*/
+
+    wristSystem = new WristSystem();
+    wristSystem.setDefaultCommand(new WristDriveCommand());
+    */
+
+
     /*
     encoder = new EncoderSubSystem();
     encoderCommand = new EncoderDriveCommand(networkTable);

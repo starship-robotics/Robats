@@ -5,11 +5,11 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 
-public class ElbowDriveCommand extends Command {
+public class WristDriveCommand extends Command {
 
-    public ElbowDriveCommand() {
+    public WristDriveCommand(){
         super();
-        requires(Robot.elbowSystem);
+        requires(Robot.wristSystem);
     }
 
     @Override
@@ -19,12 +19,12 @@ public class ElbowDriveCommand extends Command {
     @Override
     protected void execute() {
         double speed = Robot.m_oi.getJoy1RightStickYAxis();
-        if ((Robot.elbowSystem.isTopSwitchTripped() && speed > 0)
-                || (Robot.elbowSystem.isBottomSwitchTripped() && speed < 0)
-                || (!Robot.elbowSystem.isTopSwitchTripped() && !Robot.elbowSystem.isBottomSwitchTripped())) {
-            Robot.elbowSystem.drive(speed);
+        if ((Robot.wristSystem.isTopSwitchTripped() && speed > 0)
+                || (Robot.wristSystem.isBottomSwitchTripped() && speed < 0)
+                || (!Robot.wristSystem.isTopSwitchTripped() && !Robot.wristSystem.isBottomSwitchTripped())) {
+            Robot.wristSystem.drive(speed);
         } else {
-            Robot.elbowSystem.drive(0);
+            Robot.wristSystem.drive(0);
         }
     }
 

@@ -21,6 +21,7 @@ public class FrontRightLegSystem extends LegSystem {
     protected void initDefaultCommand() {
     }
 
+    @Override
     public void driveLift(double speed) {
         if (speed < 0) {
             speed = speed * LiftSystem.FRONT_LIFT_DOWN_MULTIPLIER;
@@ -28,6 +29,11 @@ public class FrontRightLegSystem extends LegSystem {
             speed = speed * LiftSystem.FRONT_LIFT_UP_MULTIPLIER;
         }
         liftMotor.set(speed);
+    }
+    
+    @Override
+    public void driveWheels(double speed){
+        driveMotor.set(speed);
     }
 
 }

@@ -29,6 +29,8 @@ public class LiftDriveCommand extends Command {
         } else {
             legSystem.driveLift(0);
         }
+
+        legSystem.driveWheels(Robot.m_oi.getJoy1RightStickYAxis());
     }
 
     @Override

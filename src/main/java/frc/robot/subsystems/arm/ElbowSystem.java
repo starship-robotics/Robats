@@ -28,15 +28,15 @@ public class ElbowSystem extends Subsystem {
     }
 
     public int encoderValue() {
-        return leftMotor.getSensorCollection().getQuadraturePosition();
+        return rightMotor.getSensorCollection().getQuadraturePosition();
     }
 
-    public boolean isTopSwitchActive() {
-        return leftMotor.getSensorCollection().isFwdLimitSwitchClosed();
+    public boolean isTopSwitchTripped() {
+        return rightMotor.getSensorCollection().isFwdLimitSwitchClosed();
     }
 
-    public boolean isBottomSwitchActive() {
-        return leftMotor.getSensorCollection().isRevLimitSwitchClosed();
+    public boolean isBottomSwitchTripped() {
+        return rightMotor.getSensorCollection().isRevLimitSwitchClosed();
     }
 
 }

@@ -20,6 +20,7 @@ public class RearLegSystem extends LegSystem {
     protected void initDefaultCommand() {
     }
 
+    @Override
     public void driveLift(double speed) {
         if (speed < 0) {
             speed = speed * LiftSystem.REAR_LIFT_DOWN_MULTIPLIER;

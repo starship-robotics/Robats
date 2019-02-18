@@ -1,5 +1,6 @@
 package frc.robot.subsystems.lift;
 
+
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -12,11 +13,18 @@ public class LegSystem extends Subsystem {
     protected DigitalInput topLimitSwitch;
     protected DigitalInput bottomLimitSwitch;
 
+    public LegSystem() {
+        super();
+    }
+
     @Override
     protected void initDefaultCommand() {
     }
-
+    
     public void driveLift(double speed) {
+    }
+
+    public void driveWheels(double speed) {
     }
 
     public boolean isTopSwitchTripped() {
