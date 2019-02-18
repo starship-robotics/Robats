@@ -7,9 +7,7 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.Robot;
 
 /**
  * An example command.  You can replace me with your own command.
@@ -20,7 +18,7 @@ public class PrintEncoderCommand extends Command {
 
   public PrintEncoderCommand() {
     // Use requires() here to declare subsystem dependencies
-    requires(Robot.encoder);
+    //requires(Robot.encoder);
     this.isFinished = false;
   }
 
@@ -32,7 +30,7 @@ public class PrintEncoderCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    System.out.println(Robot.encoder.readEncoder() + "");
+    //System.out.println(Robot.encoder.readEncoder() + "");
     this.isFinished = true;
   }
 

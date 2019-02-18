@@ -14,13 +14,14 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import frc.robot.RobotMap;
 
-/**
- * An example subsystem.  You can replace me with your own Subsystem.
- */
+
 public class DriveTrain extends Subsystem {
+
   private WPI_TalonSRX rightTalon1, rightTalon2, leftTalon1, leftTalon2;
   private DifferentialDrive drive;
-  public DriveTrain(){
+
+  public DriveTrain() {
+
     rightTalon1 = new WPI_TalonSRX(RobotMap.rightMotor1);
     rightTalon2 = new WPI_TalonSRX(RobotMap.rightMotor2);
 
@@ -33,14 +34,15 @@ public class DriveTrain extends Subsystem {
     drive = new DifferentialDrive(leftMotor, rightMotor);    
 
   }
-  // Put methods for controlling this subsystem
-  // here. Call these from Commands.
+
   public void tankDrive(double leftSpeed, double rightSpeed){
     drive.tankDrive(leftSpeed, rightSpeed, true);
   }
+
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
   }
+
 }

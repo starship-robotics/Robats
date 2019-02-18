@@ -26,7 +26,7 @@ public class EncoderDriveCommand extends Command {
     // Use requires() here to declare subsystem dependencies
     this.networkTableInstance = networkTableInstance;
     NetworkTable networkTable = networkTableInstance.getTable("SmartDashboard");
-    requires(Robot.encoder);
+    // requires(Robot.encoder);
   }
 
   // Called just before this Command runs the first time
@@ -38,9 +38,9 @@ public class EncoderDriveCommand extends Command {
   @Override
   protected void execute() {
     double speed = Robot.m_oi.getJoy1TriggerLeft();
-    Robot.encoder.drive(speed);
+    //Robot.encoder.drive(speed);
     if (speed != 0) {
-      SmartDashboard.putString("EncoderValue", Robot.encoder.readEncoder() + "");
+      // SmartDashboard.putString("EncoderValue", Robot.encoder.readEncoder() + "");
     }
     //System.out.println(""+Robot.encoder.readEncoder());
   }

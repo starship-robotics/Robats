@@ -21,7 +21,7 @@ public class DiagnosticCommand extends Command {
     public DiagnosticCommand() {
       // Use requires() here to declare subsystem dependencies
       nf.setMaximumFractionDigits(2);  
-      requires(Robot.diagnostic);
+      //requires(Robot.diagnostic);
     }
   
     // Called just before this Command runs the first time
