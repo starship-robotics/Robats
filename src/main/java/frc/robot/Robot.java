@@ -13,15 +13,15 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.commands.LiftDriveCommand;
 import frc.robot.commands.DriveCommand;
+import frc.robot.commands.HatchDownCommand;
+import frc.robot.commands.HatchUpCommand;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.RobotControllerSubSystem;
-import frc.robot.subsystems.arm.ElbowSystem;
-import frc.robot.subsystems.arm.WristSystem;
+import frc.robot.subsystems.hatch.HatchSystem;
 import frc.robot.subsystems.lift.FrontLeftLegSystem;
 import frc.robot.subsystems.lift.FrontRightLegSystem;
 import frc.robot.subsystems.lift.LiftSystem;
 import frc.robot.subsystems.lift.RearLegSystem;
-import frc.robot.subsystems.arm.ArmSystem;
 
 
 /**
@@ -32,6 +32,7 @@ import frc.robot.subsystems.arm.ArmSystem;
  * project.
  */
 public class Robot extends TimedRobot {
+
   public static DriveTrain driveTrain;
   //public static EncoderSubSystem encoder;
   public static OI m_oi;
@@ -44,9 +45,7 @@ public class Robot extends TimedRobot {
   public static FrontRightLegSystem frontRightLegSystem;
   public static RearLegSystem rearLegSystem;
 
-  public static ArmSystem armSystem;
-  public static ElbowSystem elbowSystem;
-  public static WristSystem wristSystem;
+  public static HatchSystem hatchSystem;
 
   Command driveCommand;
   Command encoderCommand;
@@ -67,30 +66,14 @@ public class Robot extends TimedRobot {
     frontRightLegSystem = new FrontRightLegSystem();
     rearLegSystem = new RearLegSystem();
     liftSystem = new LiftSystem(frontLeftLegSystem, frontRightLegSystem, rearLegSystem);
-    //frontLeftLegSystem.setDefaultCommand(new LiftDriveCommand(frontLeftLegSystem));
+    frontLeftLegSystem.setDefaultCommand(new LiftDriveCommand(frontLeftLegSystem));
     frontRightLegSystem.setDefaultCommand(new LiftDriveCommand(frontRightLegSystem));
-    //rearLegSystem.setDefaultCommand(new LiftDriveCommand(rearLegSystem));
+    rearLegSystem.setDefaultCommand(new LiftDriveCommand(rearLegSystem));
     
-    /*
-    armSystem = new ArmSystem();
-    elbowSystem = new ElbowSystem();
-    elbowSystem.setDefaultCommand(new ElbowDriveCommand());
+    hatchSystem = new HatchSystem();
+    Robot.m_oi.getJoy2ButtonA().whenPressed(new HatchDownCommand());
+    Robot.m_oi.getJoy2ButtonX().whenPressed(new HatchUpCommand());
 
-    wristSystem = new WristSystem();
-    wristSystem.setDefaultCommand(new WristDriveCommand());
-    */
-
-
-    /*
-    encoder = new EncoderSubSystem();
-    encoderCommand = new EncoderDriveCommand(networkTable);
-    encoder.setDefaultCommand(encoderCommand);
-
-    diagnostic = new Diagnostic();
-    diagnosticCommand= new DiagnosticCommand();
-    diagnostic.setDefaultCommand(diagnosticCommand);
-    */
-  
   }
 
   /**

@@ -21,7 +21,7 @@ public class LiftDriveCommand extends Command {
 
     @Override
     protected void execute() {
-        double speed = Robot.m_oi.getJoy1LeftStickYAxis() * -1;
+        double speed = Robot.m_oi.getJoy2LeftStickYAxis() * -1;
         if ((legSystem.isTopSwitchTripped() && speed > 0)
             || (legSystem.isBottomSwitchTripped() && speed < 0)
             || (!legSystem.isTopSwitchTripped() && !legSystem.isBottomSwitchTripped())) {
@@ -30,7 +30,7 @@ public class LiftDriveCommand extends Command {
             legSystem.driveLift(0);
         }
 
-        legSystem.driveWheels(Robot.m_oi.getJoy1RightStickYAxis());
+        legSystem.driveWheels(Robot.m_oi.getJoy2RightStickYAxis());
     }
 
     @Override

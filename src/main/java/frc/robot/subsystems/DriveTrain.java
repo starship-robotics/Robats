@@ -9,9 +9,12 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.SpeedControllerGroup;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 
 
@@ -19,6 +22,7 @@ public class DriveTrain extends Subsystem {
 
   private WPI_TalonSRX rightTalon1, rightTalon2, leftTalon1, leftTalon2;
   private DifferentialDrive drive;
+  private DoubleSolenoid gearShifter;
 
   public DriveTrain() {
 
@@ -31,12 +35,22 @@ public class DriveTrain extends Subsystem {
     SpeedControllerGroup leftMotor = new SpeedControllerGroup(leftTalon1, leftTalon2);
     SpeedControllerGroup rightMotor = new SpeedControllerGroup(rightTalon1, rightTalon2);
 
-    drive = new DifferentialDrive(leftMotor, rightMotor);    
+    drive = new DifferentialDrive(leftMotor, rightMotor);
+
+    gearShifter = new DoubleSolenoid(RobotMap.driveShifterSolenoidHigh, RobotMap.driveShifterSolenoidLow);
 
   }
 
   public void tankDrive(double leftSpeed, double rightSpeed){
     drive.tankDrive(leftSpeed, rightSpeed, true);
+  }
+
+  public void switchToHighGear() {
+    gearShifter.set(Value.kForward);
+  }
+
+  public void switchToLowGear() {
+    gearShifter.set(Value.kReverse);
   }
 
   @Override

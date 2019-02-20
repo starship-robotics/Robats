@@ -23,7 +23,7 @@ public class FrontRightLegSystem extends LegSystem {
 
     @Override
     public void driveLift(double speed) {
-        if (speed < 0) {
+        if (speed > 0) {
             speed = speed * LiftSystem.FRONT_LIFT_DOWN_MULTIPLIER;
         } else {
             speed = speed * LiftSystem.FRONT_LIFT_UP_MULTIPLIER;

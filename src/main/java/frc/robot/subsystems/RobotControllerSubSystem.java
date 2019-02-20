@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import frc.robot.RobotMap;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
