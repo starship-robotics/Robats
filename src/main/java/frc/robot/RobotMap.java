@@ -14,18 +14,36 @@ package frc.robot;
  * floating around.
  */
 public class RobotMap {
-  // For example to map the left and right motors, you could define the
-  // following variables to use with your drivetrain subsystem.
-  // public static int leftMotor = 1;
-  // public static int rightMotor = 2;
-  public static int rightMotor1 = 1;
-  public static int rightMotor2 = 2;
 
-  public static int leftMotor1 = 3;
-  public static int leftMotor2 = 4;
+  public static int rightMotor1 = 2;
+  public static int rightMotor2 = 3;
+  public static int leftMotor1 = 1;
+  public static int leftMotor2 = 2;
 
-  // If you are using multiple modules, make sure to define both the port
-  // number and the module. For example you with a rangefinder:
-  // public static int rangefinderPort = 1;
-  // public static int rangefinderModule = 1;
+  public static int elbowLeftMotor = 4;
+  public static int elbowRightMotor = 5;
+
+  public static int wristMotor = 6;
+
+  public static int intakeMotor = 7;
+
+  public static int frontRightLegLiftMotor = 8;
+  public static int frontLeftLegLiftMotor = 9;
+  public static int rearLegLiftMotor = 10;
+  public static int frontRightLegDriveMotor = 11;
+  public static int frontLeftLegDriveMotor = 12;
+
+  public static int frontRightLegTopLimitSwitch = 0;
+  public static int frontRightLegBottomLimitSwitch = 1;
+
+  public static int frontLeftLegTopLimitSwitch = 2;
+  public static int frontLeftLegBottomLimitSwitch = 3;
+
+  public static int rearLegTopLimitSwitch = 4;
+  public static int rearLegBottomLimitSwitch = 5;
+
+  public static int driveShifterSolenoidHigh = 1;
+  public static int driveShifterSolenoidLow = 6;
+  public static int hatchPanelDownSolenoid = 0;
+  public static int hatchPanelUpSolenoid = 7;
 }

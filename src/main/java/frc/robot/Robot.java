@@ -11,15 +11,19 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.RobotController;
-import frc.robot.commands.EncoderDriveCommand;
-import frc.robot.commands.PrintEncoderCommand;
-import frc.robot.commands.DiagnosticCommand;
+import frc.robot.commands.LiftDriveCommand;
 import frc.robot.commands.DriveCommand;
-import frc.robot.subsystems.EncoderSubSystem;
-import frc.robot.subsystems.Diagnostic;
+import frc.robot.commands.HatchDownCommand;
+import frc.robot.commands.HatchUpCommand;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.RobotControllerSubSystem;
+import frc.robot.subsystems.hatch.HatchSystem;
+import frc.robot.subsystems.lift.FrontLeftLegSystem;
+import frc.robot.subsystems.lift.FrontRightLegSystem;
+import frc.robot.subsystems.lift.LiftSystem;
+import frc.robot.subsystems.lift.RearLegSystem;
+
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -28,55 +32,48 @@ import frc.robot.subsystems.RobotControllerSubSystem;
  * project.
  */
 public class Robot extends TimedRobot {
+
   public static DriveTrain driveTrain;
-  public static EncoderSubSystem encoder;
+  //public static EncoderSubSystem encoder;
   public static OI m_oi;
   public static NetworkTableInstance networkTable;
   public static RobotControllerSubSystem robotControllerSubSystem;
-  public static Diagnostic diagnostic;
+  //public static Diagnostic diagnostic;
 
-  //Command m_autonomousCommand;
+  public static LiftSystem liftSystem;
+  public static FrontLeftLegSystem frontLeftLegSystem;
+  public static FrontRightLegSystem frontRightLegSystem;
+  public static RearLegSystem rearLegSystem;
+
+  public static HatchSystem hatchSystem;
+
   Command driveCommand;
   Command encoderCommand;
   Command diagnosticCommand;
 
-  //SendableChooser<Command> m_chooser = new SendableChooser<>();
 
-  /**
-   * This function is run when the robot is first started up and should be
-   * used for any initialization code.
-   */
   @Override
   public void robotInit() {
     m_oi = new OI();
-    //m_chooser.setDefaultOption("Default Auto", new DriveCommand());
 
     networkTable = NetworkTableInstance.getDefault();
 
     driveTrain = new DriveTrain();
     driveCommand = new DriveCommand(); 
     driveTrain.setDefaultCommand(driveCommand);
+
+    frontLeftLegSystem = new FrontLeftLegSystem();
+    frontRightLegSystem = new FrontRightLegSystem();
+    rearLegSystem = new RearLegSystem();
+    liftSystem = new LiftSystem(frontLeftLegSystem, frontRightLegSystem, rearLegSystem);
+    frontLeftLegSystem.setDefaultCommand(new LiftDriveCommand(frontLeftLegSystem));
+    frontRightLegSystem.setDefaultCommand(new LiftDriveCommand(frontRightLegSystem));
+    rearLegSystem.setDefaultCommand(new LiftDriveCommand(rearLegSystem));
     
-    encoder = new EncoderSubSystem();
-    encoderCommand = new EncoderDriveCommand(networkTable);
-    encoder.setDefaultCommand(encoderCommand);
+    hatchSystem = new HatchSystem();
+    Robot.m_oi.getJoy2ButtonA().whenPressed(new HatchDownCommand());
+    Robot.m_oi.getJoy2ButtonX().whenPressed(new HatchUpCommand());
 
-    diagnostic = new Diagnostic();
-    diagnosticCommand= new DiagnosticCommand();
-    diagnostic.setDefaultCommand(diagnosticCommand);
-  
-
-
-
-   
-    System.out.println("blahblahblah");
-    
-
-    
-
-
-    // chooser.addOption("My Auto", new MyAutoCommand());
-    //SmartDashboard.putData("Auto mode", m_chooser);
   }
 
   /**
@@ -118,21 +115,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    //m_autonomousCommand = m_chooser.getSelected();
-
-    /*
-     * String autoSelected = SmartDashboard.getString("Auto Selector",
-     * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-     * = new MyAutoCommand(); break; case "Default Auto": default:
-     * autonomousCommand = new ExampleCommand(); break; }
-     */
-
-    // schedule the autonomous command (example)
-    /*
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.start();
-    }
-    */
   }
 
   /**
