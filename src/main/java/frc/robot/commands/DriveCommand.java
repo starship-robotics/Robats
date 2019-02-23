@@ -27,7 +27,7 @@ public class DriveCommand extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    Robot.driveTrain.tankDrive(Robot.m_oi.getJoy1LeftStickYAxis() * -1, Robot.m_oi.getJoy1RightStickYAxis() * -1);
+    Robot.driveTrain.tankDrive(Robot.oi.getJoy1LeftStickYAxis() * -1, Robot.oi.getJoy1RightStickYAxis() * -1);
   }
 
   // Make this return true when this Command no longer needs to run execute()

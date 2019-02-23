@@ -9,11 +9,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class LegSystem extends Subsystem {
 
-    protected WPI_TalonSRX liftMotor, driveMotor;
-    protected DigitalInput topLimitSwitch;
-    protected DigitalInput bottomLimitSwitch;
+    WPI_TalonSRX liftMotor, driveMotor;
+    DigitalInput topLimitSwitch;
+    DigitalInput bottomLimitSwitch;
 
-    public LegSystem() {
+    LegSystem() {
         super();
     }
 
@@ -33,6 +33,10 @@ public class LegSystem extends Subsystem {
 
     public boolean isBottomSwitchTripped() {
         return !bottomLimitSwitch.get();
+    }
+
+    public double getLiftMotorSpeed() {
+        return liftMotor.get();
     }
     
 }
