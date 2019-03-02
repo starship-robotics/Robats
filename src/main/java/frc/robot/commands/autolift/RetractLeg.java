@@ -1,35 +1,34 @@
-package frc.robot.commands;
+package frc.robot.commands.autolift;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.Robot;
 import frc.robot.subsystems.lift.LegSystem;
 
 
-public class LiftDriveCommand extends Command {
+public class RetractLeg extends Command {
 
     private LegSystem legSystem;
     private boolean shouldRampSpeed = false;
-    private int leg;
+    private Timer timer;
+    private int time;
 
-    public static final int FRONT_RIGHT = 1;
-    public static final int FRONT_LEFT = 2;
-    public static final int REAR = 3;
-
-    public LiftDriveCommand(LegSystem legSystem, int leg) {
+    public RetractLeg(LegSystem legSystem, int time) {
         super();
         this.legSystem = legSystem;
+        this.time = time;
         requires(legSystem);
-        this.leg = leg;
     }
 
     @Override
     protected void initialize() {
+        timer = new Timer();
+        timer.start();
     }
 
     @Override
     protected void execute() {
-        double speed = Robot.oi.getJoy2LeftStickYAxis() * -1;
-
+        // speed 1 should be lifting robot
+        double speed = 1;
         if ((legSystem.isTopSwitchTripped() && speed > 0)
             || (legSystem.isBottomSwitchTripped() && speed < 0)
             || (!legSystem.isTopSwitchTripped() && !legSystem.isBottomSwitchTripped())) {
@@ -51,8 +50,6 @@ public class LiftDriveCommand extends Command {
             }
             legSystem.driveLift(0);
         }
-
-        legSystem.driveWheels(Robot.oi.getJoy2RightStickYAxis());
     }
 
     private double rampingSpeed(double speed) {
@@ -64,11 +61,12 @@ public class LiftDriveCommand extends Command {
 
     @Override
     protected boolean isFinished() {
-        return false;
+        return timer.get() > time;
     }
 
     @Override
     protected void end() {
+        legSystem.driveLift(0);
     }
 
     @Override

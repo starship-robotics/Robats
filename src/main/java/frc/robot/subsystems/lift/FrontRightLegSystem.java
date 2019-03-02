@@ -26,7 +26,7 @@ public class FrontRightLegSystem extends LegSystem {
         if (speed > 0) {
             speed = speed * LiftSystem.FRONT_LIFT_DOWN_MULTIPLIER;
         } else {
-            speed = speed * LiftSystem.FRONT_LIFT_UP_MULTIPLIER;
+            speed = speed * LiftSystem.FRONT_RIGHT_UP_MULTIPLIER;
         }
         liftMotor.set(speed);
     }

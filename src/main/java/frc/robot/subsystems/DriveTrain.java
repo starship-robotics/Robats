@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import frc.robot.Robot;
 import frc.robot.RobotMap;
 
 
@@ -38,11 +37,15 @@ public class DriveTrain extends Subsystem {
     drive = new DifferentialDrive(leftMotor, rightMotor);
 
     gearShifter = new DoubleSolenoid(RobotMap.driveShifterSolenoidHigh, RobotMap.driveShifterSolenoidLow);
-
+    gearShifter.set(Value.kOff);
   }
 
   public void tankDrive(double leftSpeed, double rightSpeed){
     drive.tankDrive(leftSpeed, rightSpeed, true);
+  }
+
+  public void arcadeDrive(double speed, double zRotation){
+    drive.arcadeDrive(speed, zRotation);
   }
 
   public void switchToHighGear() {
@@ -51,6 +54,10 @@ public class DriveTrain extends Subsystem {
 
   public void switchToLowGear() {
     gearShifter.set(Value.kReverse);
+  }
+
+  public boolean isHighGear() {
+    return gearShifter.get() == Value.kForward;
   }
 
   @Override

@@ -1,14 +1,25 @@
 package frc.robot;
 
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import frc.robot.commands.LiftDriveCommand;
+import frc.robot.commands.autolift.LiftAllLegs;
+import frc.robot.commands.autolift.LiftDriveForward;
+import frc.robot.commands.autolift.RetractLeg;
+import frc.robot.commands.autolift.RobotDriveForward;
+import frc.robot.commands.BasketDownCommand;
+import frc.robot.commands.BasketUpCommand;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.HatchDownCommand;
 import frc.robot.commands.HatchUpCommand;
 import frc.robot.subsystems.DriveTrain;
+import frc.robot.subsystems.basket.BasketSystem;
 import frc.robot.subsystems.hatch.HatchSystem;
 import frc.robot.subsystems.lift.FrontLeftLegSystem;
 import frc.robot.subsystems.lift.FrontRightLegSystem;
@@ -36,26 +47,80 @@ public class Robot extends TimedRobot {
 
     public static HatchSystem hatchSystem;
 
+    public static BasketSystem basketSystem;
+
     @Override
     public void robotInit() {
         oi = new OI();
 
         networkTable = NetworkTableInstance.getDefault();
 
+        CameraServer.getInstance().startAutomaticCapture();
+
+        // Drive Train
         driveTrain = new DriveTrain();
         driveTrain.setDefaultCommand(new DriveCommand());
-
+        //Robot.oi.getJoy1ButtonX().whenPressed(new DriveShiftHighCommand());
+        //Robot.oi.getJoy1ButtonB().whenPressed(new DriveShiftLowCommand());
+    
+        // Lift System
         frontLeftLegSystem = new FrontLeftLegSystem();
         frontRightLegSystem = new FrontRightLegSystem();
         rearLegSystem = new RearLegSystem();
         liftSystem = new LiftSystem(frontLeftLegSystem, frontRightLegSystem, rearLegSystem);
-        frontLeftLegSystem.setDefaultCommand(new LiftDriveCommand(frontLeftLegSystem));
-        frontRightLegSystem.setDefaultCommand(new LiftDriveCommand(frontRightLegSystem));
-        rearLegSystem.setDefaultCommand(new LiftDriveCommand(rearLegSystem));
-
+        frontLeftLegSystem.setDefaultCommand(new LiftDriveCommand(frontLeftLegSystem, LiftDriveCommand.FRONT_LEFT));
+        frontRightLegSystem.setDefaultCommand(new LiftDriveCommand(frontRightLegSystem, LiftDriveCommand.FRONT_RIGHT));
+        rearLegSystem.setDefaultCommand(new LiftDriveCommand(rearLegSystem, LiftDriveCommand.REAR));
+        
+        
+        // Hatch Panel System
         hatchSystem = new HatchSystem();
-        Robot.oi.getJoy2ButtonA().whenPressed(new HatchDownCommand());
-        Robot.oi.getJoy2ButtonX().whenPressed(new HatchUpCommand());
+        Robot.oi.getJoy1ButtonX().whenPressed(new HatchDownCommand());
+        Robot.oi.getJoy1ButtonY().whenPressed(new HatchUpCommand());
+        
+
+        // Basket System
+        basketSystem = new BasketSystem();
+        Robot.oi.getJoy1ButtonA().whenPressed(new BasketDownCommand());
+        Robot.oi.getJoy1ButtonB().whenPressed(new BasketUpCommand());
+
+        DoubleSolenoid blank = new DoubleSolenoid(RobotMap.blank1, RobotMap.blank2);
+        blank.set(Value.kOff);
+
+        // Auto Lift Command
+        CommandGroup lift = new CommandGroup();
+        // List Robot
+        lift.addParallel(new LiftAllLegs(frontLeftLegSystem, 3));
+        lift.addParallel(new LiftAllLegs(frontRightLegSystem, 3));
+        lift.addSequential(new LiftAllLegs(rearLegSystem, 3));
+        // Move Forward for 5 seconds
+        lift.addParallel(new LiftAllLegs(frontLeftLegSystem, 5));
+        lift.addParallel(new LiftAllLegs(frontRightLegSystem, 5));
+        lift.addParallel(new LiftAllLegs(rearLegSystem, 5));
+        lift.addParallel(new LiftDriveForward(frontLeftLegSystem, 5));
+        lift.addSequential(new LiftDriveForward(frontRightLegSystem, 5));
+        // Retract rear leg
+        lift.addParallel(new LiftAllLegs(frontLeftLegSystem, 3));
+        lift.addParallel(new LiftAllLegs(frontRightLegSystem, 3));
+        lift.addSequential(new RetractLeg(rearLegSystem, 3));
+        // Drive Forward with Drive Train
+        lift.addParallel(new LiftAllLegs(frontLeftLegSystem, 3));
+        lift.addParallel(new LiftAllLegs(frontRightLegSystem, 3));
+        lift.addParallel(new LiftDriveForward(frontLeftLegSystem, 3));
+        lift.addParallel(new LiftDriveForward(frontRightLegSystem, 3));
+        lift.addSequential(new RobotDriveForward(-.5, 3));
+        // Retract remaining Legs
+        lift.addParallel(new RetractLeg(frontLeftLegSystem, 3));
+        lift.addParallel(new RetractLeg(frontRightLegSystem, 3));
+        lift.addSequential(new RobotDriveForward(-.2, 3));
+        // Drive Forward
+        lift.addSequential(new RobotDriveForward(-.5, 2));
+
+        Robot.oi.getJoy2ButtonLB().whenPressed(lift);
+        
+    
+        
+        //driveTrain.switchToLowGear();
 
     }
 
@@ -69,7 +134,7 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
-
+        //driveTrain.switchToHighGear();
     }
 
     /**

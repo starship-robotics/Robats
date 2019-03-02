@@ -33,7 +33,7 @@ public class OI {
   private Button controller2ButtonY;
   private Button controller2ButtonLB;
   private Button controller2ButtonRB;
-  private double deadZone = .15d;
+  private double deadZone = 0d;
 
   public OI(){
     controller1 = new Joystick(0);
@@ -65,6 +65,15 @@ public class OI {
   public double getJoy1RightStickYAxis(){
     if(Math.abs(controller1.getRawAxis(5)) > deadZone){
       return controller1.getRawAxis(5);
+    } else{
+      return 0;
+    }
+
+  }
+
+  public double getJoy1RightStickXAxis(){
+    if(Math.abs(controller1.getRawAxis(4)) > deadZone){
+      return controller1.getRawAxis(4);
     } else{
       return 0;
     }
@@ -148,23 +157,23 @@ public class OI {
 
 
   public Button getJoy2ButtonA(){
-    return controller1ButtonA;
+    return controller2ButtonA;
   }
   
   public Button getJoy2ButtonB(){
-    return controller1ButtonB;
+    return controller2ButtonB;
   }
   public Button getJoy2ButtonX(){
-    return controller1ButtonX;
+    return controller2ButtonX;
   }
   public Button getJoy2ButtonY(){
-    return controller1ButtonY;
+    return controller2ButtonY;
   }
   public Button getJoy2ButtonLB(){
-    return controller1ButtonLB;
+    return controller2ButtonLB;
   }
   public Button getJoy2ButtonRB(){
-    return controller1ButtonRB;
+    return controller2ButtonRB;
   }
 
 

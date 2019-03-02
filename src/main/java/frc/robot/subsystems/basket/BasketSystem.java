@@ -1,4 +1,4 @@
-package frc.robot.subsystems.hatch;
+package frc.robot.subsystems.basket;
 
 
 import frc.robot.RobotMap;
@@ -7,12 +7,12 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 
-public class HatchSystem extends Subsystem{
+public class BasketSystem extends Subsystem{
 
     DoubleSolenoid armPiston;
 
-    public HatchSystem(){
-        this.armPiston = new DoubleSolenoid(RobotMap.hatchPanelDownSolenoid, RobotMap.hatchPanelUpSolenoid);
+    public BasketSystem(){
+        this.armPiston = new DoubleSolenoid(RobotMap.ballBasketDownSolenoid, RobotMap.ballBasketUpSolenoid);
         this.armPiston.set(Value.kOff);
     }
 
@@ -20,11 +20,11 @@ public class HatchSystem extends Subsystem{
     protected void initDefaultCommand() {
     }
 
-    public void openArm(){
+    public void basketUp(){
         armPiston.set(Value.kForward);        
     }
 
-    public void closeArm(){
+    public void basketDown(){
         armPiston.set(Value.kReverse);
     }
 

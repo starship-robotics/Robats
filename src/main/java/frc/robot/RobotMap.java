@@ -18,7 +18,7 @@ public class RobotMap {
   public static int rightMotor1 = 2;
   public static int rightMotor2 = 3;
   public static int leftMotor1 = 1;
-  public static int leftMotor2 = 2;
+  public static int leftMotor2 = 0;
 
   public static int elbowLeftMotor = 4;
   public static int elbowRightMotor = 5;
@@ -42,8 +42,13 @@ public class RobotMap {
   public static int rearLegTopLimitSwitch = 4;
   public static int rearLegBottomLimitSwitch = 5;
 
-  public static int driveShifterSolenoidHigh = 1;
-  public static int driveShifterSolenoidLow = 6;
+  public static int driveShifterSolenoidHigh = 5;
+  public static int driveShifterSolenoidLow = 2;
   public static int hatchPanelDownSolenoid = 0;
   public static int hatchPanelUpSolenoid = 7;
+  public static int ballBasketUpSolenoid = 1;
+  public static int ballBasketDownSolenoid = 6;
+  public static int blank1 = 3;
+  public static int blank2 = 4;
+  
 }

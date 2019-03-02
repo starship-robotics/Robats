@@ -5,12 +5,12 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 
-public class DriveShiftLowCommand extends Command{
+public class BasketUpCommand extends Command{
 
     boolean finished = false;
 
-    public DriveShiftLowCommand() {
-        requires(Robot.driveTrain);
+    public BasketUpCommand() {
+        requires(Robot.basketSystem);
     }
 
     @Override
@@ -20,7 +20,7 @@ public class DriveShiftLowCommand extends Command{
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Robot.driveTrain.switchToLowGear();
+        Robot.basketSystem.basketUp();;
         finished = true;
     }
   

@@ -20,7 +20,7 @@ public class DriveShiftHighCommand extends Command{
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Robot.driveTrain.switchToHighGear();;
+        Robot.driveTrain.switchToHighGear();
         finished = true;
     }
   
