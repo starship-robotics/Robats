@@ -23,6 +23,7 @@ public class RobotDriveForward extends Command {
   public RobotDriveForward(double speed, int time) {
     // Use requires() here to declare subsystem dependencies
     this.time = time;
+    this.speed = speed;
     requires(Robot.driveTrain);
   }
 
@@ -38,7 +39,7 @@ public class RobotDriveForward extends Command {
   protected void execute() {
 
     // Arcade Drive
-    Robot.driveTrain.arcadeDrive(speed, 0);
+    Robot.driveTrain.arcadeDrive(this.speed, 0);
   }
 
   // Make this return true when this Command no longer needs to run execute()

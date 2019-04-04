@@ -90,33 +90,46 @@ public class Robot extends TimedRobot {
         // Auto Lift Command
         CommandGroup lift = new CommandGroup();
         // List Robot
-        lift.addParallel(new LiftAllLegs(frontLeftLegSystem, 3));
-        lift.addParallel(new LiftAllLegs(frontRightLegSystem, 3));
-        lift.addSequential(new LiftAllLegs(rearLegSystem, 3));
+        CommandGroup liftRobot = new CommandGroup();
+        liftRobot.addParallel(new LiftAllLegs(frontLeftLegSystem, 3));
+        liftRobot.addParallel(new LiftAllLegs(frontRightLegSystem, 3));
+        liftRobot.addParallel(new LiftAllLegs(rearLegSystem, 3));
         // Move Forward for 5 seconds
-        lift.addParallel(new LiftAllLegs(frontLeftLegSystem, 5));
-        lift.addParallel(new LiftAllLegs(frontRightLegSystem, 5));
-        lift.addParallel(new LiftAllLegs(rearLegSystem, 5));
-        lift.addParallel(new LiftDriveForward(frontLeftLegSystem, 5));
-        lift.addSequential(new LiftDriveForward(frontRightLegSystem, 5));
+        CommandGroup moveForwardBlue = new CommandGroup();
+        moveForwardBlue.addParallel(new LiftAllLegs(frontLeftLegSystem, 4));
+        moveForwardBlue.addParallel(new LiftAllLegs(frontRightLegSystem, 4));
+        moveForwardBlue.addParallel(new LiftAllLegs(rearLegSystem, 4));
+        moveForwardBlue.addParallel(new LiftDriveForward(frontLeftLegSystem, 4));
+        moveForwardBlue.addParallel(new LiftDriveForward(frontRightLegSystem, 4));
         // Retract rear leg
-        lift.addParallel(new LiftAllLegs(frontLeftLegSystem, 3));
-        lift.addParallel(new LiftAllLegs(frontRightLegSystem, 3));
-        lift.addSequential(new RetractLeg(rearLegSystem, 3));
+        CommandGroup retractRearLeg = new CommandGroup();
+        retractRearLeg.addParallel(new LiftAllLegs(frontLeftLegSystem, 3));
+        retractRearLeg.addParallel(new LiftAllLegs(frontRightLegSystem, 3));
+        retractRearLeg.addParallel(new RetractLeg(rearLegSystem, 3));
         // Drive Forward with Drive Train
-        lift.addParallel(new LiftAllLegs(frontLeftLegSystem, 3));
-        lift.addParallel(new LiftAllLegs(frontRightLegSystem, 3));
-        lift.addParallel(new LiftDriveForward(frontLeftLegSystem, 3));
-        lift.addParallel(new LiftDriveForward(frontRightLegSystem, 3));
-        lift.addSequential(new RobotDriveForward(-.5, 3));
+        CommandGroup driveForward = new CommandGroup();
+        driveForward.addParallel(new LiftAllLegs(frontLeftLegSystem, 4));
+        driveForward.addParallel(new LiftAllLegs(frontRightLegSystem, 4));
+        driveForward.addParallel(new LiftDriveForward(frontLeftLegSystem, 4));
+        driveForward.addParallel(new LiftDriveForward(frontRightLegSystem, 4));
+        driveForward.addParallel(new RobotDriveForward(-.55, 4));
         // Retract remaining Legs
-        lift.addParallel(new RetractLeg(frontLeftLegSystem, 3));
-        lift.addParallel(new RetractLeg(frontRightLegSystem, 3));
-        lift.addSequential(new RobotDriveForward(-.2, 3));
+        CommandGroup retractFrontLegs = new CommandGroup();
+        retractFrontLegs.addParallel(new RetractLeg(frontLeftLegSystem, 3));
+        retractFrontLegs.addParallel(new RetractLeg(frontRightLegSystem, 3));
+        retractFrontLegs.addParallel(new RobotDriveForward(-.45, 3));
         // Drive Forward
-        lift.addSequential(new RobotDriveForward(-.5, 2));
+        CommandGroup driveFinal = new CommandGroup();
+        driveFinal.addParallel(new RobotDriveForward(-.42, 2));
 
-        Robot.oi.getJoy2ButtonLB().whenPressed(lift);
+        lift.addSequential(liftRobot);
+        lift.addSequential(moveForwardBlue);
+        lift.addSequential(retractRearLeg);
+        lift.addSequential(driveForward);
+        lift.addSequential(retractFrontLegs);
+        lift.addSequential(driveFinal);
+
+        Robot.oi.getJoy1ButtonLB().whenPressed(lift);
         
     
         
