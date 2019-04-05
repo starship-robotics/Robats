@@ -44,11 +44,22 @@ public class RobotMap {
 
   public static int driveShifterSolenoidHigh = 5;
   public static int driveShifterSolenoidLow = 2;
-  public static int hatchPanelDownSolenoid = 0;
-  public static int hatchPanelUpSolenoid = 7;
-  public static int ballBasketUpSolenoid = 1;
-  public static int ballBasketDownSolenoid = 6;
-  public static int blank1 = 3;
-  public static int blank2 = 4;
-  
+  public static int hatchPanelDownSolenoid = 6;
+  public static int hatchPanelUpSolenoid = 1;
+  public static int ballBasketUpSolenoid = 7;
+  public static int ballBasketDownSolenoid = 0;
+  public static int hatchLaunchPush=3;
+  public static int hatchLaunchRetract=4;
+
+  // On PCM address 1
+  public static int ballHolderSolenoidOpen = 0;
+  public static int ballHolderSolenoidClose = 7;
+  public static int solenoidPlaceholder2a = 1;
+  public static int solenoidPlaceholder2b = 6;
+  public static int solenoidPlaceholder3a = 2;
+  public static int solenoidPlaceholder3b = 5;
+  public static int solenoidPlaceholder4a = 3;
+  public static int solenoidPlaceholder4b = 4;
+
+  public static int ballHolderSwitch=6;
 }

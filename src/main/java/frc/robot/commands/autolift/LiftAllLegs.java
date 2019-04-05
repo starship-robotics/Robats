@@ -8,7 +8,7 @@ import frc.robot.subsystems.lift.LegSystem;
 public class LiftAllLegs extends Command {
 
     private LegSystem legSystem;
-    private boolean shouldRampSpeed = false;
+    private boolean maintainLift = false;
     private Timer timer;
     private int time;
 
@@ -28,35 +28,32 @@ public class LiftAllLegs extends Command {
     @Override
     protected void execute() {
         // speed 1 should be lifting robot
-        double speed = 1 * -1;
+        double speed = -1;
         if ((legSystem.isTopSwitchTripped() && speed > 0)
             || (legSystem.isBottomSwitchTripped() && speed < 0)
             || (!legSystem.isTopSwitchTripped() && !legSystem.isBottomSwitchTripped())) {
 
             // Ramping if needed... to smooth out keeping robot lifted
-            if (speed < 0 && shouldRampSpeed) {
+            if (speed < 0 && maintainLift) {
                 // Lift is going down... turn off ramping
-                shouldRampSpeed = false;
+                maintainLift = false;
             }
-            if (shouldRampSpeed) {
-                speed = rampingSpeed(speed);
+            if (maintainLift) {
+                speed = maintainLift(speed);
             }
 
             legSystem.driveLift(speed);
         } else {
             if (legSystem.isBottomSwitchTripped() && speed > 0) {
                 // Set ramping code on as we have hit the top and direction via speed says we still want to stay lifted
-                shouldRampSpeed = true;
+                maintainLift = true;
             }
             legSystem.driveLift(0);
         }
     }
 
-    private double rampingSpeed(double speed) {
-        final int RAMP_CONSTANT = 8;
-        // don't have to worry about direction as we only ramp if it's lifting and that should be a positive number
-        double currentMotorSpeed = legSystem.getLiftMotorSpeed();
-        return currentMotorSpeed + ((speed - currentMotorSpeed) / RAMP_CONSTANT);
+    private double maintainLift(double speed) {
+        return speed * .6;
     }
 
     @Override

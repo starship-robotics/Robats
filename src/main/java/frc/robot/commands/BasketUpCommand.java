@@ -7,7 +7,7 @@ import frc.robot.Robot;
 
 public class BasketUpCommand extends Command{
 
-    boolean finished = false;
+    private boolean finished = false;
 
     public BasketUpCommand() {
         requires(Robot.basketSystem);
@@ -20,7 +20,14 @@ public class BasketUpCommand extends Command{
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Robot.basketSystem.basketUp();;
+        Robot.basketSystem.basketUp();
+        Robot.basketSystem.ballHolderOpen();
+        long startTime = System.currentTimeMillis();
+        while (System.currentTimeMillis() - startTime < 1000) {
+            // Do nothing... just waiting... waiting... waiting...
+        }
+        Robot.basketSystem.setHoldingBall(false);
+
         finished = true;
     }
   

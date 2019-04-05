@@ -5,11 +5,11 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 
-public class BasketDownCommand extends Command{
+public class BallHolderOpenCommand extends Command{
 
     private boolean finished = false;
 
-    public BasketDownCommand() {
+    public BallHolderOpenCommand() {
         requires(Robot.basketSystem);
     }
 
@@ -20,7 +20,7 @@ public class BasketDownCommand extends Command{
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Robot.basketSystem.basketDown();
+        Robot.basketSystem.ballHolderOpen();
         finished = true;
     }
   

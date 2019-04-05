@@ -8,18 +8,12 @@ import frc.robot.subsystems.lift.LegSystem;
 public class LiftDriveCommand extends Command {
 
     private LegSystem legSystem;
-    private boolean shouldRampSpeed = false;
-    private int leg;
+    private boolean maintainLift = false;
 
-    public static final int FRONT_RIGHT = 1;
-    public static final int FRONT_LEFT = 2;
-    public static final int REAR = 3;
-
-    public LiftDriveCommand(LegSystem legSystem, int leg) {
+    public LiftDriveCommand(LegSystem legSystem) {
         super();
         this.legSystem = legSystem;
         requires(legSystem);
-        this.leg = leg;
     }
 
     @Override
@@ -28,38 +22,38 @@ public class LiftDriveCommand extends Command {
 
     @Override
     protected void execute() {
-        double speed = Robot.oi.getJoy2LeftStickYAxis() * -1;
+        double speed = Robot.oi.getJoy1TriggerLeft() * -1;
+        if (speed == 0) {
+            speed = Robot.oi.getJoy1TriggerRight();
+        }
 
         if ((legSystem.isTopSwitchTripped() && speed > 0)
             || (legSystem.isBottomSwitchTripped() && speed < 0)
             || (!legSystem.isTopSwitchTripped() && !legSystem.isBottomSwitchTripped())) {
 
             // Ramping if needed... to smooth out keeping robot lifted
-            if (speed < 0 && shouldRampSpeed) {
+            if (speed < 0 && maintainLift) {
                 // Lift is going down... turn off ramping
-                shouldRampSpeed = false;
+                maintainLift = false;
             }
-            if (shouldRampSpeed) {
-                speed = rampingSpeed(speed);
+            if (maintainLift) {
+                speed = maintainLift(speed);
             }
 
             legSystem.driveLift(speed);
         } else {
             if (legSystem.isBottomSwitchTripped() && speed > 0) {
                 // Set ramping code on as we have hit the top and direction via speed says we still want to stay lifted
-                shouldRampSpeed = true;
+                maintainLift = true;
             }
             legSystem.driveLift(0);
         }
 
-        legSystem.driveWheels(Robot.oi.getJoy2RightStickYAxis());
+        //legSystem.driveWheels(Robot.oi.getJoy2RightStickYAxis());
     }
 
-    private double rampingSpeed(double speed) {
-        final int RAMP_CONSTANT = 8;
-        // don't have to worry about direction as we only ramp if it's lifting and that should be a positive number
-        double currentMotorSpeed = legSystem.getLiftMotorSpeed();
-        return currentMotorSpeed + ((speed - currentMotorSpeed) / RAMP_CONSTANT);
+    private double maintainLift(double speed) {
+        return speed * .6;
     }
 
     @Override

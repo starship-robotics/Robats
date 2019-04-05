@@ -9,11 +9,12 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class HatchSystem extends Subsystem{
 
-    DoubleSolenoid armPiston;
+    private DoubleSolenoid armPiston;
+    private DoubleSolenoid hatchLaunchPiston;
 
     public HatchSystem(){
         this.armPiston = new DoubleSolenoid(RobotMap.hatchPanelDownSolenoid, RobotMap.hatchPanelUpSolenoid);
-        this.armPiston.set(Value.kOff);
+        this.hatchLaunchPiston = new DoubleSolenoid(RobotMap.hatchLaunchPush, RobotMap.hatchLaunchRetract);
     }
 
     @Override
@@ -28,4 +29,11 @@ public class HatchSystem extends Subsystem{
         armPiston.set(Value.kReverse);
     }
 
+    public void hatchPush(){
+        hatchLaunchPiston.set(Value.kForward);
+    }
+
+    public void hatchRetract(){
+        hatchLaunchPiston.set(Value.kReverse);
+    }
 }

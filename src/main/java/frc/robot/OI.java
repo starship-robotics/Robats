@@ -43,7 +43,8 @@ public class OI {
     controller1ButtonY = new JoystickButton(controller1, 4);
     controller1ButtonLB = new JoystickButton(controller1, 5);
     controller1ButtonRB = new JoystickButton(controller1, 6);
-    
+
+    /*
     controller2 = new Joystick(1);
     controller2ButtonA = new JoystickButton(controller2, 1);
     controller2ButtonB = new JoystickButton(controller2, 2);
@@ -51,6 +52,7 @@ public class OI {
     controller2ButtonY = new JoystickButton(controller2, 4);
     controller2ButtonLB = new JoystickButton(controller2, 5);
     controller2ButtonRB = new JoystickButton(controller2, 6);
+    */
   }
 
   public double getJoy1LeftStickYAxis(){
@@ -119,6 +121,7 @@ public class OI {
     return controller1ButtonRB;
   }
   //-------------------------------
+  /*
   public double getJoy2LeftStickYAxis(){
     if(Math.abs(controller2.getRawAxis(1)) > deadZone){
       return controller2.getRawAxis(1);
@@ -175,6 +178,7 @@ public class OI {
   public Button getJoy2ButtonRB(){
     return controller2ButtonRB;
   }
+  */
 
 
 

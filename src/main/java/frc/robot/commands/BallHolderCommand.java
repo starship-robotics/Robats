@@ -5,11 +5,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 
-public class BasketDownCommand extends Command{
+public class BallHolderCommand extends Command{
 
-    private boolean finished = false;
-
-    public BasketDownCommand() {
+    public BallHolderCommand() {
         requires(Robot.basketSystem);
     }
 
@@ -20,14 +18,22 @@ public class BasketDownCommand extends Command{
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Robot.basketSystem.basketDown();
-        finished = true;
+        if (Robot.basketSystem.isBallHolderTripped() && !Robot.basketSystem.isHoldingBall()) {
+            Robot.basketSystem.ballHolderClose();
+            Robot.basketSystem.setHoldingBall(true);
+        }
+        /*
+        else if (!Robot.basketSystem.isBallHolderTripped() && Robot.basketSystem.isHoldingBall()) {
+            Robot.basketSystem.ballHolderOpen();
+            Robot.basketSystem.setHoldingBall(false);
+        }
+        */
     }
   
     // Make this return true when this Command no longer needs to run execute()
     @Override
     protected boolean isFinished() {
-      return finished;
+      return false;
     }
   
     // Called once after isFinished returns true

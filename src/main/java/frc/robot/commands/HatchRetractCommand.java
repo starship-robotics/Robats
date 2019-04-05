@@ -5,12 +5,12 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
 
-public class BasketDownCommand extends Command{
+public class HatchRetractCommand extends Command{
 
-    private boolean finished = false;
+    boolean finished = false;
 
-    public BasketDownCommand() {
-        requires(Robot.basketSystem);
+    public HatchRetractCommand() {
+        requires(Robot.hatchSystem);
     }
 
     @Override
@@ -20,7 +20,7 @@ public class BasketDownCommand extends Command{
     // Called repeatedly when this Command is scheduled to run
     @Override
     protected void execute() {
-        Robot.basketSystem.basketDown();
+        Robot.hatchSystem.hatchRetract();
         finished = true;
     }
   

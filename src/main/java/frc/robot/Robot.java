@@ -5,19 +5,13 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import frc.robot.commands.LiftDriveCommand;
+import frc.robot.commands.*;
 import frc.robot.commands.autolift.LiftAllLegs;
 import frc.robot.commands.autolift.LiftDriveForward;
 import frc.robot.commands.autolift.RetractLeg;
 import frc.robot.commands.autolift.RobotDriveForward;
-import frc.robot.commands.BasketDownCommand;
-import frc.robot.commands.BasketUpCommand;
-import frc.robot.commands.DriveCommand;
-import frc.robot.commands.HatchDownCommand;
-import frc.robot.commands.HatchUpCommand;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.subsystems.basket.BasketSystem;
 import frc.robot.subsystems.hatch.HatchSystem;
@@ -67,25 +61,35 @@ public class Robot extends TimedRobot {
         frontLeftLegSystem = new FrontLeftLegSystem();
         frontRightLegSystem = new FrontRightLegSystem();
         rearLegSystem = new RearLegSystem();
-        liftSystem = new LiftSystem(frontLeftLegSystem, frontRightLegSystem, rearLegSystem);
-        frontLeftLegSystem.setDefaultCommand(new LiftDriveCommand(frontLeftLegSystem, LiftDriveCommand.FRONT_LEFT));
-        frontRightLegSystem.setDefaultCommand(new LiftDriveCommand(frontRightLegSystem, LiftDriveCommand.FRONT_RIGHT));
-        rearLegSystem.setDefaultCommand(new LiftDriveCommand(rearLegSystem, LiftDriveCommand.REAR));
-        
+        liftSystem = new LiftSystem();
+        //frontLeftLegSystem.setDefaultCommand(new LiftDriveCommand(frontLeftLegSystem));
+        //frontRightLegSystem.setDefaultCommand(new LiftDriveCommand(frontRightLegSystem));
+        //rearLegSystem.setDefaultCommand(new LiftDriveCommand(rearLegSystem));
+
         
         // Hatch Panel System
         hatchSystem = new HatchSystem();
         Robot.oi.getJoy1ButtonX().whenPressed(new HatchDownCommand());
-        Robot.oi.getJoy1ButtonY().whenPressed(new HatchUpCommand());
-        
+        //Robot.oi.getJoy1ButtonY().whenPressed(new HatchUpCommand());
+        hatchSystem.hatchRetract();
+        hatchSystem.closeArm();
+
 
         // Basket System
         basketSystem = new BasketSystem();
+        basketSystem.setDefaultCommand(new BallHolderCommand());
         Robot.oi.getJoy1ButtonA().whenPressed(new BasketDownCommand());
         Robot.oi.getJoy1ButtonB().whenPressed(new BasketUpCommand());
+        basketSystem.ballHolderOpen();
+        basketSystem.basketDown();
 
-        DoubleSolenoid blank = new DoubleSolenoid(RobotMap.blank1, RobotMap.blank2);
-        blank.set(Value.kOff);
+
+        DoubleSolenoid solenoidPlaceholder2 = new DoubleSolenoid(1, RobotMap.solenoidPlaceholder2a, RobotMap.solenoidPlaceholder2b);
+        solenoidPlaceholder2.set(DoubleSolenoid.Value.kForward);
+        DoubleSolenoid solenoidPlaceholder3 = new DoubleSolenoid(1, RobotMap.solenoidPlaceholder3a, RobotMap.solenoidPlaceholder3b);
+        solenoidPlaceholder3.set(DoubleSolenoid.Value.kForward);
+        DoubleSolenoid solenoidPlaceholder4 = new DoubleSolenoid(1, RobotMap.solenoidPlaceholder4a, RobotMap.solenoidPlaceholder4b);
+        solenoidPlaceholder4.set(DoubleSolenoid.Value.kForward);
 
         // Auto Lift Command
         CommandGroup lift = new CommandGroup();
@@ -130,10 +134,6 @@ public class Robot extends TimedRobot {
         lift.addSequential(driveFinal);
 
         Robot.oi.getJoy1ButtonLB().whenPressed(lift);
-        
-    
-        
-        //driveTrain.switchToLowGear();
 
     }
 
@@ -147,7 +147,6 @@ public class Robot extends TimedRobot {
      */
     @Override
     public void robotPeriodic() {
-        //driveTrain.switchToHighGear();
     }
 
     /**

@@ -21,6 +21,18 @@ public class HatchDownCommand extends Command{
     @Override
     protected void execute() {
         Robot.hatchSystem.openArm();
+        Robot.hatchSystem.hatchPush();
+        long startTime = System.currentTimeMillis();
+        while (System.currentTimeMillis() - startTime < 1000) {
+            // Do nothing... just waiting... waiting... waiting...
+        }
+        Robot.hatchSystem.hatchRetract();
+        startTime = System.currentTimeMillis();
+        while (System.currentTimeMillis() - startTime < 500) {
+            // Do nothing... just waiting... waiting... waiting...
+        }
+        Robot.hatchSystem.closeArm();
+
         finished = true;
     }
   
